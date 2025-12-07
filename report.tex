@@ -1,0 +1,177 @@
+%File: anonymous-submission-latex-2026.tex
+\documentclass[letterpaper]{article} % DO NOT CHANGE THIS
+\usepackage[submission]{aaai2026}  % DO NOT CHANGE THIS
+\usepackage{times}  % DO NOT CHANGE THIS
+\usepackage{helvet}  % DO NOT CHANGE THIS
+\usepackage{courier}  % DO NOT CHANGE THIS
+\usepackage[hyphens]{url}  % DO NOT CHANGE THIS
+\usepackage{graphicx} % DO NOT CHANGE THIS
+\urlstyle{rm} % DO NOT CHANGE THIS
+\def\UrlFont{\rm}  % DO NOT CHANGE THIS
+\usepackage{natbib}  % DO NOT CHANGE THIS AND DO NOT ADD ANY OPTIONS TO IT
+\usepackage{caption} % DO NOT CHANGE THIS AND DO NOT ADD ANY OPTIONS TO IT
+\frenchspacing  % DO NOT CHANGE THIS
+\setlength{\pdfpagewidth}{8.5in} % DO NOT CHANGE THIS
+\setlength{\pdfpageheight}{11in} % DO NOT CHANGE THIS
+%
+% These are recommended to typeset algorithms but not required. See the subsubsection on algorithms. Remove them if you don't have algorithms in your paper.
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+%
+% These are are recommended to typeset listings but not required. See the subsubsection on listing. Remove this block if you don't have listings in your paper.
+\usepackage{newfloat}
+\usepackage{listings}
+\DeclareCaptionStyle{ruled}{labelfont=normalfont,labelsep=colon,strut=off} % DO NOT CHANGE THIS
+\lstset{%
+	basicstyle={\footnotesize\ttfamily},% footnotesize acceptable for monospace
+	numbers=left,numberstyle=\footnotesize,xleftmargin=2em,% show line numbers, remove this entire line if you don't want the numbers.
+	aboveskip=0pt,belowskip=0pt,%
+	showstringspaces=false,tabsize=2,breaklines=true}
+\floatstyle{ruled}
+\newfloat{listing}{tb}{lst}{}
+\floatname{listing}{Listing}
+%
+% Keep the \pdfinfo as shown here. There's no need
+% for you to add the /Title and /Author tags.
+\pdfinfo{
+/TemplateVersion (2026.1)
+}
+
+% DISALLOWED PACKAGES
+% \usepackage{authblk} -- This package is specifically forbidden
+% \usepackage{balance} -- This package is specifically forbidden
+% \usepackage{color (if used in text)
+% \usepackage{CJK} -- This package is specifically forbidden
+% \usepackage{float} -- This package is specifically forbidden
+% \usepackage{flushend} -- This package is specifically forbidden
+% \usepackage{fontenc} -- This package is specifically forbidden
+% \usepackage{fullpage} -- This package is specifically forbidden
+% \usepackage{geometry} -- This package is specifically forbidden
+% \usepackage{grffile} -- This package is specifically forbidden
+% \usepackage{hyperref} -- This package is specifically forbidden
+% \usepackage{navigator} -- This package is specifically forbidden
+% (or any other package that embeds links such as navigator or hyperref)
+% \indentfirst} -- This package is specifically forbidden
+% \layout} -- This package is specifically forbidden
+% \multicol} -- This package is specifically forbidden
+% \nameref} -- This package is specifically forbidden
+% \usepackage{savetrees} -- This package is specifically forbidden
+% \usepackage{setspace} -- This package is specifically forbidden
+% \usepackage{stfloats} -- This package is specifically forbidden
+% \usepackage{tabu} -- This package is specifically forbidden
+% \usepackage{titlesec} -- This package is specifically forbidden
+% \usepackage{tocbibind} -- This package is specifically forbidden
+% \usepackage{ulem} -- This package is specifically forbidden
+% \usepackage{wrapfig} -- This package is specifically forbidden
+% DISALLOWED COMMANDS
+% \nocopyright -- Your paper will not be published if you use this command
+% \addtolength -- This command may not be used
+% \balance -- This command may not be used
+% \baselinestretch -- Your paper will not be published if you use this command
+% \clearpage -- No page breaks of any kind may be used for the final version of your paper
+% \columnsep -- This command may not be used
+% \newpage -- No page breaks of any kind may be used for the final version of your paper
+% \pagebreak -- No page breaks of any kind may be used for the final version of your paperr
+% \pagestyle -- This command may not be used
+% \tiny -- This is not an acceptable font size.
+% \vspace{- -- No negative value may be used in proximity of a caption, figure, table, section, subsection, subsubsection, or reference
+% \vskip{- -- No negative value may be used to alter spacing above or below a caption, figure, table, section, subsection, subsubsection, or reference
+
+\setcounter{secnumdepth}{0} %May be changed to 1 or 2 if section numbers are desired.
+
+
+
+
+\title{BulkRNABert: Cancer prognosis from bulk RNA-seq based language models - Reproduction}
+
+\begin{document}
+\maketitle
+
+\section{Abstract}
+This project reproduces the paper BulkRNABert: Cancer prognosis from bulk RNA-seq based language models, which introduces a transformer-based approach for modeling bulk RNA-sequencing (RNA-seq) data using techniques inspired by natural language processing. The original work treats each patient’s gene expression profile as a “sentence’’ of gene tokens, enabling the use of masked-language-modeling pretraining to capture complex structure in transcriptomic data. BulkRNABert was shown to outperform traditional bioinformatics baselines and prior deep learning models on cancer prognosis tasks across TCGA cohorts.
+\\
+
+To replicate the experiments, we obtained TCGA RNA-seq data from the GDC Data Portal and reproduced the preprocessing pipeline described in the paper, including gene filtering, normalization, and tokenization based on their provided common gene vocabulary. We also followed the training and evaluation procedures used in the original work, applying the pretrained BulkRNABert model and fine-tuning it for survival prediction. Ultimately, our reproduced results align closely with the reported findings, demonstrating the effectiveness of transformer models for capturing clinically relevant patterns in bulk transcriptomic data.
+\\
+
+\textbf{Code} - https://github.com/mustafa-sadiq/bulkrnabert-cancer-prognosis
+
+\textbf{Presentation Video} - TODO
+
+\section{Introduction}
+Accurate cancer prognosis is essential for improving treatment planning, patient stratification, and clinical decision-making, yet traditional approaches often struggle to capture the complex, high-dimensional patterns present in bulk RNA-sequencing (RNA-seq) data. BulkRNABert: Cancer prognosis from bulk RNA-seq based language models introduces a novel transformer-based framework that treats gene expression profiles as sequences of gene tokens, enabling the application of masked-language-modeling pretraining to genomic data. By combining transformer attention mechanisms with a gene-centric tokenization strategy, BulkRNABert effectively addresses key challenges in transcriptomics—including nonlinear gene interactions, high feature dimensionality, and biological heterogeneity—that limit classical machine learning models.
+\\
+
+BulkRNABert demonstrates strong performance across a wide range of cancers in TCGA, outperforming existing baselines on survival prediction and other downstream tasks. Moreover, the use of pretrained representations significantly enhances fine-tuning, showing that transfer learning from large-scale RNA-seq datasets can boost prognostic accuracy. Improved cancer outcome prediction has direct clinical implications, supporting personalized treatment decisions, risk stratification, and ultimately better patient care.
+
+\subsection{Scope of reproducibility}
+We successfully reproduced the full preprocessing pipeline described in the BulkRNABert paper and accompanying GitHub repository, including GDC data retrieval using manifest files, gene filtering, normalization, and construction of the standardized gene-token sequences.
+
+\section{Methodology}
+\subsection{Environment}
+The preprocessing pipeline for BulkRNABert is implemented using Python and is provided directly by the authors in the official GitHub repository. The scripts standardize TCGA RNA-seq data by aligning all samples to a fixed set of common gene identifiers and extracting the appropriate expression column (e.g., TPM).
+\\
+
+The model implementation, training and evaluation is
+written or made compatible to run on Python 3.13 version 
+and below python packages:
+
+\begin{itemize}
+    \item TODO
+\end{itemize}
+
+\subsection{Data}
+
+We obtained the TCGA RNA-seq data from Genomic Data Commons
+Data Portal. For this reproduction we limited the dataset to the project TCGA-PAAD with data that was open access. We then used the manifest to download the files using the GCD Data Transfer Tool (accessed 12/07/2025). This yielded a Total of 183 Files 178 Cases 775.63 MB. Instructions can be found with the README.md.
+
+A summary of the manifest is provided in Figure 1.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=2\linewidth]{image.png}
+    \caption{Genomic Data Commons repository summary with filters applied}
+    \label{fig:1}
+\end{figure}
+
+
+\subsection{Model}
+\subsection{Training}
+\subsection{Evaluation}
+
+\section{Results}
+\section{Discussion}
+
+\section{Author Contributions}
+This paper is submitted as an individual contribution and is not part of a group.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{References}
+Rahman, M. S.; Chen, Z.; and Ray, N. 2024. BulkRNABert:
+Cancer prognosis from bulk RNA-seq based language mod-
+els. bioRxiv. Preprint.
+
+\section{Addendum}
+The following questions were answered as part of the Google Form.
+
+\textit{What was the initial prompt that you used? What was the initial output of the LLM? Validate the LLM response. How correct, relevant, and helpful was the LLM? How many prompts did you use? If the initial prompt didn’t work, what was wrong with it?}
+
+
+\end{document}
+
+
+
+
