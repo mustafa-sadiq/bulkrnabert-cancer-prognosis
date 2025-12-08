@@ -118,7 +118,12 @@ written or made compatible to run on Python 3.13 version
 and below python packages:
 
 \begin{itemize}
-    \item TODO
+    \item requests
+    \item pandas
+    \item torch
+    \item numpy
+    \item scikit-learn
+    \item transformers
 \end{itemize}
 
 \subsection{Data}
@@ -130,39 +135,96 @@ A summary of the manifest is provided in Figure 1.
 
 \begin{figure}
     \centering
-    \includegraphics[width=2\linewidth]{image.png}
+    \includegraphics[width=1\linewidth]{image.png}
     \caption{Genomic Data Commons repository summary with filters applied}
     \label{fig:1}
 \end{figure}
 
 
 \subsection{Model}
+We implemented a custom transformer-based model designed for gene expression-based cancer type classification. Our architecture treats each patient’s expression profile as a ranked sequence of gene symbols sorted by expression magnitude. These sequences are tokenized using a specialized vocabulary of gene names, and a [CLS] token is prepended for classification.
+
+The model includes:
+
+\begin{itemize}
+    \item \textbf{Token Embedding Layer}: Each gene symbol is mapped to a learnable embedding vector.
+    \item \textbf{Positional Embedding}: Fixed-length learnable position embeddings are added to represent sequence order.
+    \item \textbf{Transformer Encoder}: A stack of 12 TransformerEncoder layers with 12 attention heads, hidden dimension 768, and intermediate feedforward dimension of 2048. These layers enable rich contextual modeling over the gene sequence.
+    \item \textbf{Classification Head}: A linear layer projects the final [CLS] token embedding to a distribution over cancer types.
+\end{itemize}
+
+The architecture is implemented in PyTorch and is fully compatible with attention masks for variable-length padded sequences.
+ 
+
+
 \subsection{Training}
+Our model was trained to classify tumor samples into their respective cancer types using gene expression profiles. Key training settings include:
+
+\begin{itemize}
+    \item \textbf{Loss function}: CrossEntropyLoss, since the task is multi-class classification.
+    \item \textbf{Optimizer}: AdamW with default PyTorch settings.
+    \item \textbf{Learning Rate}: Default (1e-3), no scheduler.
+    \item \textbf{Batch Size}: 32
+    \item \textbf{Epochs}: We trained for 10 epochs, but the model reached perfect accuracy on the training set within 3 epochs.
+\end{itemize}
+Due to the extremely high accuracy and overfitting risk, early stopping or regularization (dropout, weight decay) would be advisable for generalization.
+
+\textbf{Computational Requirements}
+
+We trained and tested the model using Google Colab with a T4 GPU (16 GB VRAM). The entire pipeline, including preprocessing, training, and prediction, ran efficiently without memory issues. The largest runtime bottleneck was data loading and gene sorting per sample. Total GPU hours used were under 2.
+
+ 
+
 \subsection{Evaluation}
+We evaluated the classifier on its ability to predict the correct cancer type label per sample. The following observations were made:
+
+Accuracy: 100% on the training dataset.
+
+Prediction Distribution: The model correctly matched the cancer type distribution expected from the original labels.
+
+We used a precomputed mapping from integer class IDs to cancer type strings. Evaluation was done via direct class match from the argmax of logits.
+
+Due to the absence of a held-out test set, this result reflects potential overfitting, and more rigorous evaluation on an unseen validation cohort is planned.
 
 \section{Results}
-\section{Discussion}
+The transformer-based model achieved perfect prediction accuracy (100\%) on the cancer type labels for all input samples. This outcome suggests the model successfully learned to exploit patterns in the sorted gene expression sequences.
 
+While such high performance is promising, it also suggests the need for:
+
+\begin{itemize}
+    \item \textbf{Validation with a test set} to assess generalization.
+    \item \textbf{Training regularization}, as the model may be memorizing sample-to-label mappings.
+    \item \textbf{Comparison with baseline models}, such as logistic regression or small MLPs, to evaluate the added value of the transformer encoder.
+\end{itemize}
+We plan to add held-out evaluation in the next experiment round.
+
+\textbf{Additional Extensions or Ablations}
+
+We plan to conduct the following experiments:
+
+\begin{itemize}
+    \item \textbf{Reduced Model Depth}: Train a 4-layer transformer to assess the necessity of 12 layers.
+    \item \textbf{Randomized Gene Order}: Test the importance of gene ranking order by using shuffled or static gene order.
+    \item \textbf{Smaller Vocabulary}: Restrict to most variable 5000 genes instead of all to reduce model size.
+    \item \textbf{Comparison to BulkRNABert}: Evaluate how our purely sequence-based transformer compares to pretrained BulkRNABert representations on the same task.
+\end{itemize}
+Each ablation will be evaluated in terms of classification accuracy and training efficiency.
+
+
+ 
+\section{Discussion}
+Our transformer classifier demonstrates that gene expression ranking provides a strong signal for tumor type classification. However, the 100\% accuracy on the training data suggests overfitting, and further evaluation is needed. The transformer likely memorizes sample-label associations due to the high dimensionality and structured input.
+
+Moving forward, we aim to validate our approach with test sets, baseline comparisons, and ablations to identify the minimal architecture needed for high performance in RNA-seq based cancer classification.
+
+ 
 \section{Author Contributions}
 This paper is submitted as an individual contribution and is not part of a group.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
 \section{References}
-Rahman, M. S.; Chen, Z.; and Ray, N. 2024. BulkRNABert:
-Cancer prognosis from bulk RNA-seq based language mod-
-els. bioRxiv. Preprint.
+Gélard, M., Richard, G., Pierrot, T., & Cournède, P.H. (2025). BulkRNABert: Cancer prognosis from bulk RNA-seq based language models. In Proceedings of the 4th Machine Learning for Health Symposium (pp. 384–400). PMLR.
 
 \section{Addendum}
 The following questions were answered as part of the Google Form.
