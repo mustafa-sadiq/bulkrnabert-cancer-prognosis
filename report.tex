@@ -95,9 +95,11 @@ This project reproduces the paper BulkRNABert: Cancer prognosis from bulk RNA-se
 To replicate the experiments, we obtained TCGA RNA-seq data from the GDC Data Portal and reproduced the preprocessing pipeline described in the paper, including gene filtering, normalization, and tokenization based on their provided common gene vocabulary. We also followed the training and evaluation procedures used in the original work, applying the pretrained BulkRNABert model and fine-tuning it for survival prediction. Ultimately, our reproduced results align closely with the reported findings, demonstrating the effectiveness of transformer models for capturing clinically relevant patterns in bulk transcriptomic data.
 \\
 
-\textbf{Code} - https://github.com/mustafa-sadiq/bulkrnabert-cancer-prognosis
+\textbf{Code} - \url{https://github.com/mustafa-sadiq/bulkrnabert-cancer-prognosis}
 
-\textbf{Presentation Video} - TODO
+\textbf{Presentation Video} - \url{https://mediaspace.illinois.edu/media/t/1_akwd6uth}
+
+\textbf{PyHealth pull request} - \url{https://github.com/sunlabuiuc/PyHealth/pull/717}
 
 \section{Introduction}
 Accurate cancer prognosis is essential for improving treatment planning, patient stratification, and clinical decision-making, yet traditional approaches often struggle to capture the complex, high-dimensional patterns present in bulk RNA-sequencing (RNA-seq) data. BulkRNABert: Cancer prognosis from bulk RNA-seq based language models introduces a novel transformer-based framework that treats gene expression profiles as sequences of gene tokens, enabling the application of masked-language-modeling pretraining to genomic data. By combining transformer attention mechanisms with a gene-centric tokenization strategy, BulkRNABert effectively addresses key challenges in transcriptomics—including nonlinear gene interactions, high feature dimensionality, and biological heterogeneity—that limit classical machine learning models.
