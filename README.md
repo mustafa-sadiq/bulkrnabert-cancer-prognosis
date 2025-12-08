@@ -18,3 +18,9 @@ python scripts/preprocess_tcga_rna_seq.py
 --common-gene-ids-path data/common_gene_id.txt 
 --rna-seq-column tpm_unstranded
 ```
+
+## Run model
+
+```
+python main.py
+```

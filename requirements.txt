@@ -1,2 +1,7 @@
 requests
 pandas
+torch
+numpy
+scikit-learn
+transformers
+tqdm
